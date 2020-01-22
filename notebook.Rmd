@@ -1,0 +1,67 @@
+---
+title: "Zoe's Notebook"
+
+output: html_document
+editor_options: 
+chunk_output_type: console
+---
+
+## Author: Zoe Portlas
+### Affiliation: Plant Biology, UVM
+### E-mail contact: zoe.portlas@uvm.edu
+
+
+### Start Date: 2020-01-13
+### End Date: 2020-05-08
+### Project Descriptions:
+
+# Table of Contents:  
+  * [Entry 1: 2020-01-13, Monday](#id-section1)
+      * [Entry 2: 2020-01-14, Tuesday](#id-section2)
+    * [Entry 3: 2020-01-15, Wednesday](#id-section3)
+     * [Entry 4: 2020-01-16, Thursday](#id-section4)
+       * [Entry 5: 2020-01-17, Friday](#id-section5)
+       * [Entry 6: 2020-01-20, Monday](#id-section6)
+       
+
+------
+<div id='id-section1'/>   
+
+### Entry 1: 2020-01-01, Wednesday.   
+
+
+
+------
+<div id='id-section2'/>   
+
+### Entry 2: 2020-01-02, Thursday.   
+
+
+
+------
+<div id='id-section3'/>   
+
+### Entry 3: 2020-01-03, Friday.   
+
+
+
+------
+<div id='id-section4'/>   
+
+### Entry 4: 2020-01-06, Monday.   
+
+
+
+------
+<div id='id-section5'/>   
+
+### Entry 5: 2020-01-07, Tuesday.   
+
+
+
+------
+<div id='id-section6'/>   
+
+### Entry 6: 2020-01-08, Wednesday.   
+
+
