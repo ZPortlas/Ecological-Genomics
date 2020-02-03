@@ -17,51 +17,309 @@ chunk_output_type: console
 
 # Table of Contents:  
   * [Entry 1: 2020-01-13, Monday](#id-section1)
-      * [Entry 2: 2020-01-14, Tuesday](#id-section2)
-    * [Entry 3: 2020-01-15, Wednesday](#id-section3)
-     * [Entry 4: 2020-01-16, Thursday](#id-section4)
-       * [Entry 5: 2020-01-17, Friday](#id-section5)
-       * [Entry 6: 2020-01-20, Monday](#id-section6)
+  * [Entry 2: 2020-01-15, Wednesday](#id-section2)
+  * [Entry 3: 2020-01-22, Monday](#id-section3)
+  * [Entry 4: 2020-01-27, Monday](#id-section4)
+  * [Entry 5: 2020-01-29, Wednesday](#id-section5)
+  * [Entry 6: 2020-02-03, Monday](#id-section6)
+  * [Entry 7: 2020-02-05, Wednesday](#id-section7)
+  * [Entry 8: 2020-02-10, Monday](#id-section8)
+  * [Entry 9: 2020-02-12, Wednesday](#id-section9)
        
 
 ------
 <div id='id-section1'/>   
 
-### Entry 1: 2020-01-01, Wednesday.   
+### Entry 1: 2020-01-13, Monday   
 
+* Population genetics: 1920s - 1930s
+  * Pioneers: Sewell Wright, R.A. Fisher, J.B.S. Haldane
+  * Mathematical Theory
+  * Classic expectations
+    * Null odel of Hardy Weinberg equilibrium
+  * Genetic drift, sampling effect in finite populations
+  * Island model, multiple local populations that were divided, but connected to each other through migration
+    * Fst: fixation coefficiant of a sunpopulation in relation to the total population
+      * Fst = 0 indicates complete panmixis, no differentiation between subpopulations
+      * Fst = 1 indicates complete isolation of subpopulations
+  * 1970s: allozymes, variants of the same protein to look at frequency of alleles
+  * 1980s: PCR, studying DNA more directly, microsatellites, DNA Sanger Sequencing
 
+* Molecular Evolution
+  * Pioneers: M. Kimura (Neutral theory of evolution), Tajima (Tajima's D, ration of nucleotide diversity, pi, vs. number of segregating sites, s)
+  * Tying in ecological data with next gen sequencing data
+  
 
 ------
 <div id='id-section2'/>   
 
-### Entry 2: 2020-01-02, Thursday.   
+### Entry 2: 2020-01-15, Wednesday   
 
+#### Library Prep Info Updates
 
+* RNA Seq
+  * Whole transcriptome shotgun sequencing
+  * Uses high thoroughout NGS (Next Gen Seq) to characterize gene expression patterns and to identify novel genes or transcripts
+  * Platforms:
+    * Solid
+    * Ion Torrent
+    * Illumina HiSeq
+  * Expression at different time points, developmental stages, environment, across populations
+  * Gives you functionally relevant information about what genes are actually being used
+  * Can let you detect allele variants of those genes
+  * Limitations:
+    * Sometimes reads can be ambiguously mapped to the reference
+    * Instability of mRNA
+    * Can miss variation if you don't incorporate different tissues
+  * Library Prep:
+    * Sample collection (tissues, whole organisms)
+    * RNA isolation and quality check (nanodrop, electrophoresis, qubit, bioanalyzer)
+    * Ribosomal RNA depletion (rRNA) to focus on mRNA and polyA enrichment
+    * Fragmentation to cut up mRNA into fragments that are the right size for sequencing platforms
+    * Convert to cDNA (complementary DNA synthesis) reverse transcriptase
+    * Add adaptors that may have amplification element, primary seq site, barcode, etc.
+    * Amplification with PCR
 
+* GBS
+  * RADseq = Restriction site Associate DNA sequencing
+    * A set of methods that start with genomic DNA and begin by digesting it with one or more restriction enzymes.
+    * Adaptors (double stranded oligonucleotides) are also added for next gen sequencing.
+    * Adaptors include barcodes which can be used to identify individual samples with allows multiplexing (pooling) so many samples can be sequenced as part of one library
+  * Library Prep:
+    * Extract DNA from samples
+    * Digest DNA with one restriction enzymes (usually ApeKI), which leaves sticky ends
+    * Ligate adaptors (with barcodes)
+    * Multiplex
+    * PCR
+      * Indirect size selection for short fragments
+      * Can introduce error because an allele might have a SNP at the site where the RE would usually cut, causing allele drop out
+
+* Bisulfite Seq
+  * Identifies methylated cytosine, which occur in CG islands
+    * methyl added to C makes it hard for protein to interact
+    * Isolate genomic DNA and treat with sodium bisulfite
+    * Converts only methylated cytosine to uracil
+    * PCR
+    * Sequence and compare treated sample to the untreated sequence
+  * Histones can be methylated or ethylated (etc.)
+    * CHIPseq = Chromatin immunoprecipitation
+    * Introduce a fixative to fix all protein to the DNA it's in contact with
+    * Pink specific proteins that you're interested in with immunoprecipitation specificity system
+      * Randomly fragment
+      * Introduce an antibody
+      * Antibody is attached to a pach that weighs down the protein/DNA it's attached to, to separate the protein/DNA of interest from others
+    * Can sequence which parts of the DNA the protein was attached to
+  * Chromatin Structure
+    * ATACseq
+    * Introduced manufactured transposon to fragment DNA where it's not wrapped in the chromatin
+    * Transposonsattach adaptors so you can sequence
+    * Fragmentation + tagging = Tagmentation
+    * HiC seq
+    
+* Illumina Sequencing
+  * Library Prep of choice
+  * Cluster generation
+    * Flow cell with lawn of complementary adaptors
+    * Pieces of DNA with adaptors stick to lawn
+    * Bridge PCR process amplifies DNA into clusters so the signal will be bright enough
+  * Sequencing by synthesis
+    * Fluorescent dNTPs
+    * Signal of fluorescence recorded as DNA grows
+  * Types: miSeq, HiSeq, Sanger
+  
+* PacBio/Oxford Nanopore
+  * Long read sequencers
+  * SMRT
+    * PacBio
+      * Polumerase is fixed in a well and the DNA moves through it
+      * we know where the site of incorporation is going to be so you can fix a laser there
+      * Fluorescent signal is read at that fixed point
+      * To reduce error, they make sequence circular so it goes through multiple times
+    * ONT
+      * Nanopore
+      * Combination of proteins: motor and one that sits in membrane
+      * Single strand of DNA goes through pore
+      * Current across membrane
+    * Synthetic: Uses short reads with barcoding to stitch them together after
+      * Illumina
+      * 10x genomics (Immersion)
+      * They partition longer fragments until they're in the lower frequency and then chop them up and give them barcodes
+    * Inaccurate and expensive compared to short read sequencing
+    * Good for highly repetitive regions
+    
 ------
 <div id='id-section3'/>   
 
-### Entry 3: 2020-01-03, Friday.   
+### Entry 3: 2020-01-22, Monday   
 
+##### Library Prep Info Updates Part 2
+* Amplicon Seq
+  * Amplicon: a piece of DNA/RNA that is product or source of amplification
+    * Undergoes simplification, replicated genetic material
+    * Direct repeat (head to tail)
+    * Inverted repeat (head to head or tail to tail)
+    * Amplicon usually interchangeable with term PCR product
+    * PCR -> pooled -> sequenced together
+    * Multiplexing
+    * Can use for:
+      * Genome targeting
+      * Detection of hotspot mutations
+      * Detection of gene fusion
+      * SNPs
+      * Metagenomics (biodiversity assessment)
+    * Preparation
+      * Sample selection (environmental samples, 'mock communities', etc
+      * DNA/RNA extraction
+      * Quantify using Qubit, etc.
+      * ITS (fungal), CO1 (insects),  16SRNA (bacterial, ~450 bp)
+      * Library prep: 
+        * Samples
+        * 1st PCR step
+        * Add primer and head target (allows barcode to attach)
+        * Purification
+        * 2nd PCR: amplify your PCR products with primers that have library specific barcode
+        * Purification (can use magnetic beads, magnetic stand, etc)
+        * Pool samples into library that is sent to be sequenced
+      * Why use 2 PCR steps? Only 1 leads to problems which can be remediated
 
-
+* Exon capture sequencing
+  * Focused on high value genomic regions so you can have high coverage sequences of prespecified regions
+  * Exon = protein coding region of the gene
+  * Exome = the portion of the genome that encodes for exons
+  * Biomedical uses: disease variants most likely in exome
+  * Ecological evolution: genetic mapping of locally adapted traits, fine scale mapping for phenotypic expression, can detect selection in genome, provides info of life history and molecular evolution, phylogenetic reconstruction, ancient DNA (aDNA)
+  * Library prep
+    * Sample collection
+    * Fragmentation of the DNA
+      * Fragment soup of DNA fragments with blunt ends, fragments same length, adenine tails are added, same adaptor is added to both ends of the fragments
+    * Enriching library
+      * Pool DNA that corresponds to exons, must create probes to capture DNA fragments with different methods:
+        * PCR: range of targeted loci ~100, genomic knowledge needed of PCR primer sequences
+        * De novo: range of targeted loci 100s-1000s, knowledge needed of transcriptome, RADseq, or whole genome sequences
+        * Divergent annotated genome: 100s-1000s loci, knowledge needed of annotated genome
+    * Purify and collect targeted DNA
+    
 ------
 <div id='id-section4'/>   
 
-### Entry 4: 2020-01-06, Monday.   
+### Entry 4: 2020-01-27, Monday.   
+
+#### Population Genomics
+* Selection and drift across the genome
+  * Motivation? 
+    * Climate change -> change in abundance and distribution of species, and changes in selection
+  * Challenging: signals of abundance/distribution (demographic history) are very difficult to tell from selection
+  * Why study across the whole genome?
+    * Inherently variable environment
+    * Studying across the genome prevents bias from sampling only a few places along the genome
+    * Linkage disequilibrium
+    * Selection acts locally and demographic changes affect everywhere in the genome
+  * Demographic history
+    * Ne = effective population size, the size that a population behaves as if it were an idealized wright fisher population
+      * Captures the effect of population size on drift
+    * Migration (gene flow) among populations
+    * Coalescent theory (Kingman, Watterson, Tajima, Hudson)
+      * What is the probability that any two randomly sampled allele copies came from the same parent allele the generation before
+      * 2Ne allele copies in a population of size Ne ind.
+      * Pr(common ancestor) = 1/2Ne
+      * Eventually coalesces to the common ancestor of the entire sample
+      * Want to sample many genes, it's a stochastic process
+      * Can estimate what pop size was doing based on how often you're seeing coalescent events
+    * Site Frequency Spectrum (SFS)
+      * Wright fisher population has many rare mutations
+      * If pop is growing, there will be a lot of rare mutations and few common alleles
+      * If a pop that has gone through a bottleneck, what you’re likely to lose is the rare lineages and the ones that make it through weren't rare before the bottleneck
+  * Selection
+    * Positive selection - selection increasing frequency of a beneficial allele
+      * Pi = nucleotide diversity
+      * Pi over chromosome, pi will decrease where there is selection because one allele is favored
+      * With linkage disequilibrium, sites around the selected sites will also have decreased pi and there will be high linkage disequilibrium -> hitchhiking
+      * Bushy topology = just recovering after a selective sweep
+      * Same signature as population expansion
+      * Tajima's D will be very negative for selective sweep and growing population
+
+#### Bi, et al. 2019 
 
 
 
 ------
 <div id='id-section5'/>   
 
-### Entry 5: 2020-01-07, Tuesday.   
+### Entry 5: 2020-01-29, Wednesday   
+(Absent from class)
 
+* Difference between Rmd vs. md?
+  * Markdown is a type of language that renders it into something readable
+  
+* Learning Objectives
+  * Background on species
+  * Understand the pipeline
+  * Bash scripts
+  * Sequencing quality assessment
+  * Mapping to ref genome
+  
+* Red Spruce: Cool moist climates, northerly distributed, higher in elevation as you move south
+  * Genetic basis of climate adaptation
+  * Highly fragmented populations
+  * Alleles that might be potentially conserved
+  * Inform nature conservancy to improve restoration
+  
+* Genomic DNA from needles (110 Mother trees, 23 pops)
+  * Red genome based on multiple tissues and developmental stages in related species white spruce
+  * 80,000 proves were designed based on these transcriptomes (120 bp)
+  * coverage of at least one prove for 38,570 unigenes (90 bp, 85% coverage)
+  * fragmentation, hybridization with probes, sequenced on a Hiseq X to generate paired end 150 bp reads
+    * single end only one end is paired
+    * Paired ends two ends are sequenced, more powerful than single end
 
+* Pipeline
+ 
+    
 
 ------
 <div id='id-section6'/>   
 
-### Entry 6: 2020-01-08, Wednesday.   
+### Entry 6: 2020-02-03, Monday.   
+
+#### Settepani et al., 2017 
+* Evolution of sociality in spiders leads to depleted genomic diversity at both population and species level
+
+* Effective population size
+  * Ne = 4(number males*number females)/(n males + n females)
+  * Common in social pops to have unequal sex ratio with fewer males, so the Ne will be limited by the number of reproducing males
 
 
+* Metapopulation dynamics
+* Propagule pool model
+
+------
+<div id='id-section7'/>   
+
+### Entry 7: 2020-02-05, Wednesday   
+
+
+------
+
+------
+<div id='id-section8'/>   
+
+### Entry 8: 2020-02-10, Monday   
+
+
+------
+
+------
+<div id='id-section9'/>   
+
+### Entry 9: 2020-02-12, Wednesday   
+
+
+------
+
+------
+<div id='id-section10'/>   
+
+### Entry 10: 2020-02-17, Monday   
+
+
+------

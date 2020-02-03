@@ -388,52 +388,412 @@ summary {
 <div id="table-of-contents" class="section level1">
 <h1>Table of Contents:</h1>
 <ul>
-<li><a href="#id-section1">Entry 1: 2020-01-13, Monday</a>
-<ul>
-<li><a href="#id-section2">Entry 2: 2020-01-14, Tuesday</a></li>
-<li><a href="#id-section3">Entry 3: 2020-01-15, Wednesday</a></li>
-<li><a href="#id-section4">Entry 4: 2020-01-16, Thursday</a>
-<ul>
-<li><a href="#id-section5">Entry 5: 2020-01-17, Friday</a></li>
-<li><a href="#id-section6">Entry 6: 2020-01-20, Monday</a></li>
-</ul></li>
-</ul></li>
+<li><a href="#id-section1">Entry 1: 2020-01-13, Monday</a></li>
+<li><a href="#id-section2">Entry 2: 2020-01-15, Wednesday</a></li>
+<li><a href="#id-section3">Entry 3: 2020-01-22, Monday</a></li>
+<li><a href="#id-section4">Entry 4: 2020-01-27, Monday</a></li>
+<li><a href="#id-section5">Entry 5: 2020-01-29, Wednesday</a></li>
+<li><a href="#id-section6">Entry 6: 2020-02-03, Monday</a></li>
+<li><a href="#id-section7">Entry 7: 2020-02-05, Wednesday</a></li>
+<li><a href="#id-section8">Entry 8: 2020-02-10, Monday</a></li>
+<li><a href="#id-section9">Entry 9: 2020-02-12, Wednesday</a></li>
 </ul>
 <hr />
 <div id="id-section1"></div>
 
-<div id="entry-1-2020-01-01-wednesday." class="section level3">
-<h3>Entry 1: 2020-01-01, Wednesday.</h3>
+<div id="entry-1-2020-01-13-monday" class="section level3">
+<h3>Entry 1: 2020-01-13, Monday</h3>
+<ul>
+<li>Population genetics: 1920s - 1930s
+<ul>
+<li>Pioneers: Sewell Wright, R.A. Fisher, J.B.S. Haldane</li>
+<li>Mathematical Theory</li>
+<li>Classic expectations
+<ul>
+<li>Null odel of Hardy Weinberg equilibrium</li>
+</ul></li>
+<li>Genetic drift, sampling effect in finite populations</li>
+<li>Island model, multiple local populations that were divided, but connected to each other through migration
+<ul>
+<li>Fst: fixation coefficiant of a sunpopulation in relation to the total population
+<ul>
+<li>Fst = 0 indicates complete panmixis, no differentiation between subpopulations</li>
+<li>Fst = 1 indicates complete isolation of subpopulations</li>
+</ul></li>
+</ul></li>
+<li>1970s: allozymes, variants of the same protein to look at frequency of alleles</li>
+<li>1980s: PCR, studying DNA more directly, microsatellites, DNA Sanger Sequencing</li>
+</ul></li>
+<li>Molecular Evolution
+<ul>
+<li>Pioneers: M. Kimura (Neutral theory of evolution), Tajima (Tajima’s D, ration of nucleotide diversity, pi, vs. number of segregating sites, s)</li>
+<li>Tying in ecological data with next gen sequencing data</li>
+</ul></li>
+</ul>
 <hr />
 <div id="id-section2"></div>
 
 </div>
-<div id="entry-2-2020-01-02-thursday." class="section level3">
-<h3>Entry 2: 2020-01-02, Thursday.</h3>
+<div id="entry-2-2020-01-15-wednesday" class="section level3">
+<h3>Entry 2: 2020-01-15, Wednesday</h3>
+<div id="library-prep-info-updates" class="section level4">
+<h4>Library Prep Info Updates</h4>
+<ul>
+<li>RNA Seq
+<ul>
+<li>Whole transcriptome shotgun sequencing</li>
+<li>Uses high thoroughout NGS (Next Gen Seq) to characterize gene expression patterns and to identify novel genes or transcripts</li>
+<li>Platforms:
+<ul>
+<li>Solid</li>
+<li>Ion Torrent</li>
+<li>Illumina HiSeq</li>
+</ul></li>
+<li>Expression at different time points, developmental stages, environment, across populations</li>
+<li>Gives you functionally relevant information about what genes are actually being used</li>
+<li>Can let you detect allele variants of those genes</li>
+<li>Limitations:
+<ul>
+<li>Sometimes reads can be ambiguously mapped to the reference</li>
+<li>Instability of mRNA</li>
+<li>Can miss variation if you don’t incorporate different tissues</li>
+</ul></li>
+<li>Library Prep:
+<ul>
+<li>Sample collection (tissues, whole organisms)</li>
+<li>RNA isolation and quality check (nanodrop, electrophoresis, qubit, bioanalyzer)</li>
+<li>Ribosomal RNA depletion (rRNA) to focus on mRNA and polyA enrichment</li>
+<li>Fragmentation to cut up mRNA into fragments that are the right size for sequencing platforms</li>
+<li>Convert to cDNA (complementary DNA synthesis) reverse transcriptase</li>
+<li>Add adaptors that may have amplification element, primary seq site, barcode, etc.</li>
+<li>Amplification with PCR</li>
+</ul></li>
+</ul></li>
+<li>GBS
+<ul>
+<li>RADseq = Restriction site Associate DNA sequencing
+<ul>
+<li>A set of methods that start with genomic DNA and begin by digesting it with one or more restriction enzymes.</li>
+<li>Adaptors (double stranded oligonucleotides) are also added for next gen sequencing.</li>
+<li>Adaptors include barcodes which can be used to identify individual samples with allows multiplexing (pooling) so many samples can be sequenced as part of one library</li>
+</ul></li>
+<li>Library Prep:
+<ul>
+<li>Extract DNA from samples</li>
+<li>Digest DNA with one restriction enzymes (usually ApeKI), which leaves sticky ends</li>
+<li>Ligate adaptors (with barcodes)</li>
+<li>Multiplex</li>
+<li>PCR
+<ul>
+<li>Indirect size selection for short fragments</li>
+<li>Can introduce error because an allele might have a SNP at the site where the RE would usually cut, causing allele drop out</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Bisulfite Seq
+<ul>
+<li>Identifies methylated cytosine, which occur in CG islands
+<ul>
+<li>methyl added to C makes it hard for protein to interact</li>
+<li>Isolate genomic DNA and treat with sodium bisulfite</li>
+<li>Converts only methylated cytosine to uracil</li>
+<li>PCR</li>
+<li>Sequence and compare treated sample to the untreated sequence</li>
+</ul></li>
+<li>Histones can be methylated or ethylated (etc.)
+<ul>
+<li>CHIPseq = Chromatin immunoprecipitation</li>
+<li>Introduce a fixative to fix all protein to the DNA it’s in contact with</li>
+<li>Pink specific proteins that you’re interested in with immunoprecipitation specificity system
+<ul>
+<li>Randomly fragment</li>
+<li>Introduce an antibody</li>
+<li>Antibody is attached to a pach that weighs down the protein/DNA it’s attached to, to separate the protein/DNA of interest from others</li>
+</ul></li>
+<li>Can sequence which parts of the DNA the protein was attached to</li>
+</ul></li>
+<li>Chromatin Structure
+<ul>
+<li>ATACseq</li>
+<li>Introduced manufactured transposon to fragment DNA where it’s not wrapped in the chromatin</li>
+<li>Transposonsattach adaptors so you can sequence</li>
+<li>Fragmentation + tagging = Tagmentation</li>
+<li>HiC seq</li>
+</ul></li>
+</ul></li>
+<li>Illumina Sequencing
+<ul>
+<li>Library Prep of choice</li>
+<li>Cluster generation
+<ul>
+<li>Flow cell with lawn of complementary adaptors</li>
+<li>Pieces of DNA with adaptors stick to lawn</li>
+<li>Bridge PCR process amplifies DNA into clusters so the signal will be bright enough</li>
+</ul></li>
+<li>Sequencing by synthesis
+<ul>
+<li>Fluorescent dNTPs</li>
+<li>Signal of fluorescence recorded as DNA grows</li>
+</ul></li>
+<li>Types: miSeq, HiSeq, Sanger</li>
+</ul></li>
+<li>PacBio/Oxford Nanopore
+<ul>
+<li>Long read sequencers</li>
+<li>SMRT
+<ul>
+<li>PacBio
+<ul>
+<li>Polumerase is fixed in a well and the DNA moves through it</li>
+<li>we know where the site of incorporation is going to be so you can fix a laser there</li>
+<li>Fluorescent signal is read at that fixed point</li>
+<li>To reduce error, they make sequence circular so it goes through multiple times</li>
+</ul></li>
+<li>ONT
+<ul>
+<li>Nanopore</li>
+<li>Combination of proteins: motor and one that sits in membrane</li>
+<li>Single strand of DNA goes through pore</li>
+<li>Current across membrane</li>
+</ul></li>
+<li>Synthetic: Uses short reads with barcoding to stitch them together after
+<ul>
+<li>Illumina</li>
+<li>10x genomics (Immersion)</li>
+<li>They partition longer fragments until they’re in the lower frequency and then chop them up and give them barcodes</li>
+</ul></li>
+<li>Inaccurate and expensive compared to short read sequencing</li>
+<li>Good for highly repetitive regions</li>
+</ul></li>
+</ul></li>
+</ul>
 <hr />
 <div id="id-section3"></div>
 
 </div>
-<div id="entry-3-2020-01-03-friday." class="section level3">
-<h3>Entry 3: 2020-01-03, Friday.</h3>
+</div>
+<div id="entry-3-2020-01-22-monday" class="section level3">
+<h3>Entry 3: 2020-01-22, Monday</h3>
+<div id="library-prep-info-updates-part-2" class="section level5">
+<h5>Library Prep Info Updates Part 2</h5>
+<ul>
+<li>Amplicon Seq
+<ul>
+<li>Amplicon: a piece of DNA/RNA that is product or source of amplification
+<ul>
+<li>Undergoes simplification, replicated genetic material</li>
+<li>Direct repeat (head to tail)</li>
+<li>Inverted repeat (head to head or tail to tail)</li>
+<li>Amplicon usually interchangeable with term PCR product</li>
+<li>PCR -&gt; pooled -&gt; sequenced together</li>
+<li>Multiplexing</li>
+<li>Can use for:
+<ul>
+<li>Genome targeting</li>
+<li>Detection of hotspot mutations</li>
+<li>Detection of gene fusion</li>
+<li>SNPs</li>
+<li>Metagenomics (biodiversity assessment)</li>
+</ul></li>
+<li>Preparation
+<ul>
+<li>Sample selection (environmental samples, ‘mock communities’, etc</li>
+<li>DNA/RNA extraction</li>
+<li>Quantify using Qubit, etc.</li>
+<li>ITS (fungal), CO1 (insects), 16SRNA (bacterial, ~450 bp)</li>
+<li>Library prep:
+<ul>
+<li>Samples</li>
+<li>1st PCR step</li>
+<li>Add primer and head target (allows barcode to attach)</li>
+<li>Purification</li>
+<li>2nd PCR: amplify your PCR products with primers that have library specific barcode</li>
+<li>Purification (can use magnetic beads, magnetic stand, etc)</li>
+<li>Pool samples into library that is sent to be sequenced</li>
+</ul></li>
+<li>Why use 2 PCR steps? Only 1 leads to problems which can be remediated</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Exon capture sequencing
+<ul>
+<li>Focused on high value genomic regions so you can have high coverage sequences of prespecified regions</li>
+<li>Exon = protein coding region of the gene</li>
+<li>Exome = the portion of the genome that encodes for exons</li>
+<li>Biomedical uses: disease variants most likely in exome</li>
+<li>Ecological evolution: genetic mapping of locally adapted traits, fine scale mapping for phenotypic expression, can detect selection in genome, provides info of life history and molecular evolution, phylogenetic reconstruction, ancient DNA (aDNA)</li>
+<li>Library prep
+<ul>
+<li>Sample collection</li>
+<li>Fragmentation of the DNA
+<ul>
+<li>Fragment soup of DNA fragments with blunt ends, fragments same length, adenine tails are added, same adaptor is added to both ends of the fragments</li>
+</ul></li>
+<li>Enriching library
+<ul>
+<li>Pool DNA that corresponds to exons, must create probes to capture DNA fragments with different methods:
+<ul>
+<li>PCR: range of targeted loci ~100, genomic knowledge needed of PCR primer sequences</li>
+<li>De novo: range of targeted loci 100s-1000s, knowledge needed of transcriptome, RADseq, or whole genome sequences</li>
+<li>Divergent annotated genome: 100s-1000s loci, knowledge needed of annotated genome</li>
+</ul></li>
+</ul></li>
+<li>Purify and collect targeted DNA</li>
+</ul></li>
+</ul></li>
+</ul>
 <hr />
 <div id="id-section4"></div>
 
 </div>
-<div id="entry-4-2020-01-06-monday." class="section level3">
-<h3>Entry 4: 2020-01-06, Monday.</h3>
+</div>
+<div id="entry-4-2020-01-27-monday." class="section level3">
+<h3>Entry 4: 2020-01-27, Monday.</h3>
+<div id="population-genomics" class="section level4">
+<h4>Population Genomics</h4>
+<ul>
+<li>Selection and drift across the genome
+<ul>
+<li>Motivation?
+<ul>
+<li>Climate change -&gt; change in abundance and distribution of species, and changes in selection</li>
+</ul></li>
+<li>Challenging: signals of abundance/distribution (demographic history) are very difficult to tell from selection</li>
+<li>Why study across the whole genome?
+<ul>
+<li>Inherently variable environment</li>
+<li>Studying across the genome prevents bias from sampling only a few places along the genome</li>
+<li>Linkage disequilibrium</li>
+<li>Selection acts locally and demographic changes affect everywhere in the genome</li>
+</ul></li>
+<li>Demographic history
+<ul>
+<li>Ne = effective population size, the size that a population behaves as if it were an idealized wright fisher population
+<ul>
+<li>Captures the effect of population size on drift</li>
+</ul></li>
+<li>Migration (gene flow) among populations</li>
+<li>Coalescent theory (Kingman, Watterson, Tajima, Hudson)
+<ul>
+<li>What is the probability that any two randomly sampled allele copies came from the same parent allele the generation before</li>
+<li>2Ne allele copies in a population of size Ne ind.</li>
+<li>Pr(common ancestor) = 1/2Ne</li>
+<li>Eventually coalesces to the common ancestor of the entire sample</li>
+<li>Want to sample many genes, it’s a stochastic process</li>
+<li>Can estimate what pop size was doing based on how often you’re seeing coalescent events</li>
+</ul></li>
+<li>Site Frequency Spectrum (SFS)
+<ul>
+<li>Wright fisher population has many rare mutations</li>
+<li>If pop is growing, there will be a lot of rare mutations and few common alleles</li>
+<li>If a pop that has gone through a bottleneck, what you’re likely to lose is the rare lineages and the ones that make it through weren’t rare before the bottleneck</li>
+</ul></li>
+</ul></li>
+<li>Selection
+<ul>
+<li>Positive selection - selection increasing frequency of a beneficial allele
+<ul>
+<li>Pi = nucleotide diversity</li>
+<li>Pi over chromosome, pi will decrease where there is selection because one allele is favored</li>
+<li>With linkage disequilibrium, sites around the selected sites will also have decreased pi and there will be high linkage disequilibrium -&gt; hitchhiking</li>
+<li>Bushy topology = just recovering after a selective sweep</li>
+<li>Same signature as population expansion</li>
+<li>Tajima’s D will be very negative for selective sweep and growing population</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="bi-et-al.-2019" class="section level4">
+<h4>Bi, et al. 2019</h4>
 <hr />
 <div id="id-section5"></div>
 
 </div>
-<div id="entry-5-2020-01-07-tuesday." class="section level3">
-<h3>Entry 5: 2020-01-07, Tuesday.</h3>
+</div>
+<div id="entry-5-2020-01-29-wednesday" class="section level3">
+<h3>Entry 5: 2020-01-29, Wednesday</h3>
+<p>(Absent from class)</p>
+<ul>
+<li>Difference between Rmd vs. md?
+<ul>
+<li>Markdown is a type of language that renders it into something readable</li>
+</ul></li>
+<li>Learning Objectives
+<ul>
+<li>Background on species</li>
+<li>Understand the pipeline</li>
+<li>Bash scripts</li>
+<li>Sequencing quality assessment</li>
+<li>Mapping to ref genome</li>
+</ul></li>
+<li>Red Spruce: Cool moist climates, northerly distributed, higher in elevation as you move south
+<ul>
+<li>Genetic basis of climate adaptation</li>
+<li>Highly fragmented populations</li>
+<li>Alleles that might be potentially conserved</li>
+<li>Inform nature conservancy to improve restoration</li>
+</ul></li>
+<li>Genomic DNA from needles (110 Mother trees, 23 pops)
+<ul>
+<li>Red genome based on multiple tissues and developmental stages in related species white spruce</li>
+<li>80,000 proves were designed based on these transcriptomes (120 bp)</li>
+<li>coverage of at least one prove for 38,570 unigenes (90 bp, 85% coverage)</li>
+<li>fragmentation, hybridization with probes, sequenced on a Hiseq X to generate paired end 150 bp reads
+<ul>
+<li>single end only one end is paired</li>
+<li>Paired ends two ends are sequenced, more powerful than single end</li>
+</ul></li>
+</ul></li>
+<li>Pipeline</li>
+</ul>
 <hr />
 <div id="id-section6"></div>
 
 </div>
-<div id="entry-6-2020-01-08-wednesday." class="section level3">
-<h3>Entry 6: 2020-01-08, Wednesday.</h3>
+<div id="entry-6-2020-02-03-monday." class="section level3">
+<h3>Entry 6: 2020-02-03, Monday.</h3>
+<div id="settepani-et-al.-2017" class="section level4">
+<h4>Settepani et al., 2017</h4>
+<ul>
+<li><p>Evolution of sociality in spiders leads to depleted genomic diversity at both population and species level</p></li>
+<li>Effective population size
+<ul>
+<li>Ne = 4(number males*number females)/(n males + n females)</li>
+<li>Common in social pops to have unequal sex ratio with fewer males, so the Ne will be limited by the number of reproducing males</li>
+</ul></li>
+<li>Metapopulation dynamics</li>
+<li><p>Propagule pool model</p></li>
+</ul>
+<hr />
+<div id="id-section7"></div>
+
+</div>
+</div>
+<div id="entry-7-2020-02-05-wednesday" class="section level3">
+<h3>Entry 7: 2020-02-05, Wednesday</h3>
+<hr />
+<hr />
+<div id="id-section8"></div>
+
+</div>
+<div id="entry-8-2020-02-10-monday" class="section level3">
+<h3>Entry 8: 2020-02-10, Monday</h3>
+<hr />
+<hr />
+<div id="id-section9"></div>
+
+</div>
+<div id="entry-9-2020-02-12-wednesday" class="section level3">
+<h3>Entry 9: 2020-02-12, Wednesday</h3>
+<hr />
+<hr />
+<div id="id-section10"></div>
+
+</div>
+<div id="entry-10-2020-02-17-monday" class="section level3">
+<h3>Entry 10: 2020-02-17, Monday</h3>
+<hr />
 </div>
 </div>
 
