@@ -745,11 +745,27 @@ summary {
 <li>Paired ends two ends are sequenced, more powerful than single end</li>
 </ul></li>
 </ul></li>
-<li>Pipeline</li>
 </ul>
+<div id="pipeline" class="section level4">
+<h4>Pipeline</h4>
+<ol style="list-style-type: decimal">
+<li>Visualize, Clean, Visualize</li>
+</ol>
+<ul>
+<li>Visualize the quality of raw data (Program: FastQC)</li>
+<li>Clean raw data (Program: Trimmomatic)</li>
+<li>Visualize the quality of cleaned data (Program: FastQC)</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Calculate #s of cleaned, high quality reads going into mapping</li>
+<li>Map (a.k.a. Align) cleaned reads from each sample to the reference assembly to generate sequence alignment files (Program: bwa, Input: .fastq, Output: .sam)</li>
+<li>Remove PCR duplicates identified during mapping and calculate alignment statistics (% of read mapping successfully, mapping quality scores, average depth of coverage per individual)</li>
+</ol>
+<p>We’ll then use the results of out mapping next week to start estimating diversity and population structure.</p>
 <hr />
 <div id="id-section6"></div>
 
+</div>
 </div>
 <div id="entry-6-2020-02-03-monday." class="section level3">
 <h3>Entry 6: 2020-02-03, Monday.</h3>

@@ -272,9 +272,17 @@ chunk_output_type: console
     * single end only one end is paired
     * Paired ends two ends are sequenced, more powerful than single end
 
-* Pipeline
- 
-    
+#### Pipeline
+1. Visualize, Clean, Visualize
+  * Visualize the quality of raw data (Program: FastQC)
+  * Clean raw data (Program: Trimmomatic)
+  * Visualize the quality of cleaned data (Program: FastQC)
+2. Calculate #s of cleaned, high quality reads going into mapping
+3. Map (a.k.a. Align) cleaned reads from each sample to the reference assembly to generate sequence alignment files (Program: bwa, Input: .fastq, Output: .sam)
+4. Remove PCR duplicates identified during mapping and calculate alignment statistics (% of read mapping successfully, mapping quality scores, average depth of coverage per individual)
+
+We'll then use the results of out mapping next week to start estimating diversity and population structure.
+
 
 ------
 <div id='id-section6'/>   
