@@ -788,10 +788,51 @@ summary {
 </div>
 <div id="entry-7-2020-02-05-wednesday" class="section level3">
 <h3>Entry 7: 2020-02-05, Wednesday</h3>
+<div id="my-population-is-dg" class="section level4">
+<h4>My population is DG</h4>
+<p>Qs from last week: * paired reads are the ones we want to visualize because unpaired ones don’t have partners that passed quality score. Paired useful for genome assembly, etc.</p>
+<p>Learning Objectives</p>
+<ol style="list-style-type: decimal">
+<li>Reviewing our progress on read cleaning and visualizing QC</li>
+<li>start mapping each set of cleaned reads to a reference genome</li>
+<li>visualize seq alignment files</li>
+<li>process our sam files by</li>
+</ol>
+<ul>
+<li>converting to binary (bam) format and sorting by coordinates</li>
+<li>removing PCR duplicates</li>
+<li>indexing for fast future lookup</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>calculate mapping stats to assess quality of the result</li>
+<li>learn how to put separate bash scripts into a “wrapper” that runs them all</li>
+</ol>
+<ul>
+<li>Mapping cleaned and trimmed reads against the ref genome
+<ul>
+<li>reference genome from Norway spruce (congenie.org)</li>
+<li>pull out contigs from ref that contained one or more of our probes -&gt; 668,000,000 bp reduced reference genome</li>
+<li>genome isn’t assembled into chromosomes, they’re in contigs that are in some order (we don’t know, which is typical for non-model organisms)</li>
+<li>Indexed, reduced ref genome to use for mapping is on server here: <code>/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa</code></li>
+<li>N50 = gives a metric of the state of the assembly, how much of the genome is assembled into big contigs instead of small ones
+<ul>
+<li>sort contigs in order of size</li>
+<li>take 50% of size (334 Mbp), start with biggest contigs and go until you have summed up that many Mbps</li>
+<li>N50 is size of smallest contig that which the sum of contigs that size and larger equal 50% of the total size</li>
+<li>you want it to be a big number to tell you at least half is assembled into big contigs</li>
+<li>101,375 bp is the N50 size for us</li>
+<li>small is ok, but bigger gets you more spatial information, closer to the actual chromosomes</li>
+</ul></li>
+</ul></li>
+<li>We’re going to write script in text editor</li>
+<li>test it for just one ind before running for all</li>
+<li>can kill scripts with ctrl+C</li>
+</ul>
 <hr />
 <hr />
 <div id="id-section8"></div>
 
+</div>
 </div>
 <div id="entry-8-2020-02-10-monday" class="section level3">
 <h3>Entry 8: 2020-02-10, Monday</h3>
