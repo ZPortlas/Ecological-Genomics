@@ -339,6 +339,10 @@ Learning Objectives
 * test it for just one ind before running for all
 * can kill scripts with ctrl+C
 
+
+* on server: `git pull` to get scripts we wrote today
+* to make file executable (if you do `ll` and the file names aren't green): `chmod u+x *.sh`
+
 ------
 
 ------
