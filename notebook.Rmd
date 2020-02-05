@@ -343,6 +343,8 @@ Learning Objectives
 * on server: `git pull` to get scripts we wrote today
 * to make file executable (if you do `ll` and the file names aren't green): `chmod u+x *.sh`
 
+* at command prompt with nothing else running: `screen` and then `bash mypipeline.sh` and then ctrl+A and then ctrl+D `screen -r` (remember to detach again with ctrl+A and ctrl+D)
+
 ------
 
 ------
