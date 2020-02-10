@@ -345,6 +345,14 @@ Learning Objectives
 
 * at command prompt with nothing else running: `screen` and then `bash mypipeline.sh` and then ctrl+A and then ctrl+D `screen -r` (remember to detach again with ctrl+A and ctrl+D)
 
+`[zportlas@pbio381 edge_fastq]$ zcat DG_04_R1_fastq.gz | head -n 4`
+
+`@GWNJ-0842:368:GW1809211440:2:1101:13149:1872 1:N:0:NTGCCTAA+NTTCGCCT`
+
+`AATTAAATTCACCAACGGGAAGGACATCAACCTTCCTGAGAAAATTAACAGAAGAGGACCAATAGTCTGTAGCAAGCAAAGCGAGAAAGATAATAAATTCTAAGCTAGGTTGTTGATCTATGTCATCGTTAGTTAGACACTGAATTTTAG`
+`+`
+`AA---<<A-JA<JFFJJJJF<<<FJAAJF<A<-<FJJ--FJFFFJJJJ-FJFJJ7FJ--7-F-FFJF<JJFFJAJA<AFF--FJ--<FAAAJJJ-A-AJAJA-7AA7F<FFFFJJ<FJF-AF7J---77A7---AF-F-7F-FA-A-7--`
+
 ------
 
 ------
