@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in /data/project_data/RS_ExomeSeq/fastq/edge_fastq/DG*fastq.gz
+for file in /data/project_data/RS_ExomeSeq/fastq/edge_fastq/pairedcleanreads/DG*fastq.gz
 
 do
 
