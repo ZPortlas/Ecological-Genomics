@@ -345,13 +345,88 @@ Learning Objectives
 
 * at command prompt with nothing else running: `screen` and then `bash mypipeline.sh` and then ctrl+A and then ctrl+D `screen -r` (remember to detach again with ctrl+A and ctrl+D)
 
-`[zportlas@pbio381 edge_fastq]$ zcat DG_04_R1_fastq.gz | head -n 4`
+#### mypipeline.sh:
 
-`@GWNJ-0842:368:GW1809211440:2:1101:13149:1872 1:N:0:NTGCCTAA+NTTCGCCT`
+`#!/bin/bash`
 
-`AATTAAATTCACCAACGGGAAGGACATCAACCTTCCTGAGAAAATTAACAGAAGAGGACCAATAGTCTGTAGCAAGCAAAGCGAGAAAGATAATAAATTCTAAGCTAGGTTGTTGATCTATGTCATCGTTAGTTAGACACTGAATTTTAG`
-`+`
-`AA---<<A-JA<JFFJJJJF<<<FJAAJF<A<-<FJJ--FJFFFJJJJ-FJFJJ7FJ--7-F-FFJF<JJFFJAJA<AFF--FJ--<FAAAJJJ-A-AJAJA-7AA7F<FFFFJJ<FJF-AF7J---77A7---AF-F-7F-FA-A-7--`
+`# Path to my repo:`
+
+`myrepo="/users/s/r/zportlas/Ecological_Genomics/Spring_2020"`
+
+`# echo ${myrepo}`
+
+`# My population:`
+
+`mypop="DG"`
+
+`# Directory to cleaned and paired reads:`
+
+`input="/data/project_data/RS_ExomeSeq/fastq/edge_fastq/pairedcleanreads/${mypop}"`
+
+`# Directory in common space where we'll store mapping output for everyone to use`
+
+`output="/data/project_data/RS_ExomeSeq/mapping"`
+
+`# Run mapping.sh`
+
+`source ./mapping.sh`
+
+`# Run the post-processing steps`
+
+`source ./process_bam.sh`
+
+#### mapping.sh:
+
+`#!/bin/bash`
+
+`# this script will run the read mapping using "bwa" program`
+
+`ref="/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa"`
+
+`# Write a loop to map each individual within my population`
+
+`for forward in ${input}*_R1.cl.pd.fq`
+
+`do`
+`reverse=${forward/_R1.cl.pd.fq/_R2.cl.pd.fq}`
+`f=${forward/_R1.cl.pd.fq/}`
+`name=`basename ${f}` `
+`bwa mem -t 1 -M ${ref} ${forward} ${reverse} >` `${output}/BWA/${name}.sam`
+`done`
+
+#### process_bam.sh:
+
+`#!/bin/bash`
+
+`# This is where our output sam files are going to get converted into binary (bam)`
+`# Then we're going to sort the bam files, remove the PCR duplicates, and index them`
+
+`# First, let's convert sam to bam and then sort`
+
+`for f in ${output}/BWA/${mypop}*.sam`
+
+`do`
+`out=${f/.sam/}`
+`sambamba-0.7.1-linux-static view -S --format=bam ${f} -o ${out}.bam`
+`samtools sort ${out}.bam -o ${out}.sorted.bam`
+`done`
+
+`# Now lets remove the PCR duplicates from our bam files:`
+
+`for file in ${output}/BWA/${mypop}*.sorted.bam`
+
+`do`
+`f=${file/.sorted.bam/}`
+`sambamba-0.7.1-linux-static markdup -r -t 1 ${file}` `${f}.sorted.rmdup.bam`
+`done`
+
+`# Now to finish, we'll index our files`
+
+`for file in ${output}/BWA/${mypop}*.sorted.rmdup.bam`
+
+`do`
+`samtools index ${file}`
+`done`
 
 ------
 

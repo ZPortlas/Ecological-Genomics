@@ -831,9 +831,46 @@ summary {
 <li><p>to make file executable (if you do <code>ll</code> and the file names aren’t green): <code>chmod u+x *.sh</code></p></li>
 <li><p>at command prompt with nothing else running: <code>screen</code> and then <code>bash mypipeline.sh</code> and then ctrl+A and then ctrl+D <code>screen -r</code> (remember to detach again with ctrl+A and ctrl+D)</p></li>
 </ul>
-<p><code>[zportlas@pbio381 edge_fastq]$ zcat DG_04_R1_fastq.gz | head -n 4</code></p>
-<p><code>@GWNJ-0842:368:GW1809211440:2:1101:13149:1872 1:N:0:NTGCCTAA+NTTCGCCT</code></p>
-<p><code>AATTAAATTCACCAACGGGAAGGACATCAACCTTCCTGAGAAAATTAACAGAAGAGGACCAATAGTCTGTAGCAAGCAAAGCGAGAAAGATAATAAATTCTAAGCTAGGTTGTTGATCTATGTCATCGTTAGTTAGACACTGAATTTTAG</code> <code>+</code> <code>AA---&lt;&lt;A-JA&lt;JFFJJJJF&lt;&lt;&lt;FJAAJF&lt;A&lt;-&lt;FJJ--FJFFFJJJJ-FJFJJ7FJ--7-F-FFJF&lt;JJFFJAJA&lt;AFF--FJ--&lt;FAAAJJJ-A-AJAJA-7AA7F&lt;FFFFJJ&lt;FJF-AF7J---77A7---AF-F-7F-FA-A-7--</code></p>
+</div>
+<div id="mypipeline.sh" class="section level4">
+<h4>mypipeline.sh:</h4>
+<p><code>#!/bin/bash</code></p>
+<p><code># Path to my repo:</code></p>
+<p><code>myrepo=&quot;/users/s/r/zportlas/Ecological_Genomics/Spring_2020&quot;</code></p>
+<p><code># echo ${myrepo}</code></p>
+<p><code># My population:</code></p>
+<p><code>mypop=&quot;DG&quot;</code></p>
+<p><code># Directory to cleaned and paired reads:</code></p>
+<p><code>input=&quot;/data/project_data/RS_ExomeSeq/fastq/edge_fastq/pairedcleanreads/${mypop}&quot;</code></p>
+<p><code># Directory in common space where we&#39;ll store mapping output for everyone to use</code></p>
+<p><code>output=&quot;/data/project_data/RS_ExomeSeq/mapping&quot;</code></p>
+<p><code># Run mapping.sh</code></p>
+<p><code>source ./mapping.sh</code></p>
+<p><code># Run the post-processing steps</code></p>
+<p><code>source ./process_bam.sh</code></p>
+</div>
+<div id="mapping.sh" class="section level4">
+<h4>mapping.sh:</h4>
+<p><code>#!/bin/bash</code></p>
+<p><code># this script will run the read mapping using &quot;bwa&quot; program</code></p>
+<p><code>ref=&quot;/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa&quot;</code></p>
+<p><code># Write a loop to map each individual within my population</code></p>
+<p><code>for forward in ${input}*_R1.cl.pd.fq</code></p>
+<p><code>do</code> <code>reverse=${forward/_R1.cl.pd.fq/_R2.cl.pd.fq}</code> <code>f=${forward/_R1.cl.pd.fq/}</code> <code>name=</code>basename ${f}<code></code> <code>bwa mem -t 1 -M ${ref} ${forward} ${reverse} &gt;</code> <code>${output}/BWA/${name}.sam</code> <code>done</code></p>
+</div>
+<div id="process_bam.sh" class="section level4">
+<h4>process_bam.sh:</h4>
+<p><code>#!/bin/bash</code></p>
+<p><code># This is where our output sam files are going to get converted into binary (bam)</code> <code># Then we&#39;re going to sort the bam files, remove the PCR duplicates, and index them</code></p>
+<p><code># First, let&#39;s convert sam to bam and then sort</code></p>
+<p><code>for f in ${output}/BWA/${mypop}*.sam</code></p>
+<p><code>do</code> <code>out=${f/.sam/}</code> <code>sambamba-0.7.1-linux-static view -S --format=bam ${f} -o ${out}.bam</code> <code>samtools sort ${out}.bam -o ${out}.sorted.bam</code> <code>done</code></p>
+<p><code># Now lets remove the PCR duplicates from our bam files:</code></p>
+<p><code>for file in ${output}/BWA/${mypop}*.sorted.bam</code></p>
+<p><code>do</code> <code>f=${file/.sorted.bam/}</code> <code>sambamba-0.7.1-linux-static markdup -r -t 1 ${file}</code> <code>${f}.sorted.rmdup.bam</code> <code>done</code></p>
+<p><code># Now to finish, we&#39;ll index our files</code></p>
+<p><code>for file in ${output}/BWA/${mypop}*.sorted.rmdup.bam</code></p>
+<p><code>do</code> <code>samtools index ${file}</code> <code>done</code></p>
 <hr />
 <hr />
 <div id="id-section8"></div>
