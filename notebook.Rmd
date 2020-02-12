@@ -358,86 +358,91 @@ Learning Objectives
 
 #### mypipeline.sh:
 
-`#!/bin/bash`
+```
+#!/bin/bash
 
-`# Path to my repo:`
+# Path to my repo:
 
-`myrepo="/users/s/r/zportlas/Ecological_Genomics/Spring_2020"`
+myrepo="/users/s/r/zportlas/Ecological_Genomics/Spring_2020"
 
-`# echo ${myrepo}`
+# echo ${myrepo}
 
-`# My population:`
+# My population:
 
-`mypop="DG"`
+mypop="DG"
 
-`# Directory to cleaned and paired reads:`
+# Directory to cleaned and paired reads:
 
-`input="/data/project_data/RS_ExomeSeq/fastq/edge_fastq/pairedcleanreads/${mypop}"`
+input="/data/project_data/RS_ExomeSeq/fastq/edge_fastq/pairedcleanreads/${mypop}"
 
-`# Directory in common space where we'll store mapping output for everyone to use`
+# Directory in common space where we'll store mapping output for everyone to use
 
-`output="/data/project_data/RS_ExomeSeq/mapping"`
+output="/data/project_data/RS_ExomeSeq/mapping"
 
-`# Run mapping.sh`
+# Run mapping.sh
 
-`source ./mapping.sh`
+source ./mapping.sh
 
-`# Run the post-processing steps`
+# Run the post-processing steps
 
-`source ./process_bam.sh`
+source ./process_bam.sh
+```
 
 #### mapping.sh:
 
-`#!/bin/bash`
+```
+#!/bin/bash
 
-`# this script will run the read mapping using "bwa" program`
+# this script will run the read mapping using "bwa" program
 
-`ref="/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa"`
+ref="/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa"
 
-`# Write a loop to map each individual within my population`
+# Write a loop to map each individual within my population
 
-`for forward in ${input}*_R1.cl.pd.fq`
+for forward in ${input}*_R1.cl.pd.fq
 
-`do`
-`reverse=${forward/_R1.cl.pd.fq/_R2.cl.pd.fq}`
-`f=${forward/_R1.cl.pd.fq/}`
-`name=`basename ${f}` `
-`bwa mem -t 1 -M ${ref} ${forward} ${reverse} >` `${output}/BWA/${name}.sam`
-`done`
+do
+reverse=${forward/_R1.cl.pd.fq/_R2.cl.pd.fq}
+f=${forward/_R1.cl.pd.fq/}
+name=`basename ${f}`
+bwa mem -t 1 -M ${ref} ${forward} ${reverse} > ${output}/BWA/${name}.sam
+done
+```
 
 #### process_bam.sh:
 
-`#!/bin/bash`
+```
+#!/bin/bash
 
-`# This is where our output sam files are going to get converted into binary (bam)`
-`# Then we're going to sort the bam files, remove the PCR duplicates, and index them`
+# This is where our output sam files are going to get converted into binary (bam)
+# Then we're going to sort the bam files, remove the PCR duplicates, and index them
 
-`# First, let's convert sam to bam and then sort`
+# First, let's convert sam to bam and then sort
 
-`for f in ${output}/BWA/${mypop}*.sam`
+for f in ${output}/BWA/${mypop}*.sam
 
-`do`
-`out=${f/.sam/}`
-`sambamba-0.7.1-linux-static view -S --format=bam ${f} -o ${out}.bam`
-`samtools sort ${out}.bam -o ${out}.sorted.bam`
-`done`
+do
+out=${f/.sam/}
+sambamba-0.7.1-linux-static view -S --format=bam ${f} -o ${out}.bam
+samtools sort ${out}.bam -o ${out}.sorted.bam
+done
 
-`# Now lets remove the PCR duplicates from our bam files:`
+# Now lets remove the PCR duplicates from our bam files:
+for file in ${output}/BWA/${mypop}*.sorted.bam
 
-`for file in ${output}/BWA/${mypop}*.sorted.bam`
+do
+f=${file/.sorted.bam/}
+sambamba-0.7.1-linux-static markdup -r -t 1 ${file} ${f}.sorted.rmdup.bam
+done
 
-`do`
-`f=${file/.sorted.bam/}`
-`sambamba-0.7.1-linux-static markdup -r -t 1 ${file}` `${f}.sorted.rmdup.bam`
-`done`
+# Now to finish, we'll index our files
 
-`# Now to finish, we'll index our files`
+for file in ${output}/BWA/${mypop}*.sorted.rmdup.bam
 
-`for file in ${output}/BWA/${mypop}*.sorted.rmdup.bam`
-
-`do`
-`samtools index ${file}`
-`done`
+do
+samtools index ${file}
+done
+```
 
 ------
 
@@ -455,8 +460,95 @@ Assessing the potential for assisted gene flow using past introduction of Norway
 <div id='id-section9'/>   
 
 ### Entry 9: 2020-02-12, Wednesday   
+* ANGSD 
+* Sam files are human readable but less data efficient than bam files
+* MAQ = mapping quality score
+
+* Filename sorted.rmdup.bam
+* Bai companion file
+
+* Genotype likelihood framework instead of hard calling genotypes because our read depth is low and we don't want to discount genotypes with lower probability
+  * Genotype free pop gen
 
 
+* Pairwise diffs (pi), segregating sites (theta_W), Tajima's D
+* D = pi-theta_W/sd(pi-theta_W)
+* D = 0 wright fisher
+* D < 0 growing population
+* D>0 bottlenecked population
+
+#### Bamstats.sh:
+```
+#!/bin/bash
+
+# set repo
+
+myrepo="/users/z/p/zportlas/Ecological-Genomics"
+
+mypop="DG"
+
+output="/data/project_data/RS_ExomeSeq/mapping"
+
+echo "Num.reads R1 R2 Paired MateMapped Singletons MateMappedDiffChr" >${myrepo}/myresults/${mypop}.flagstats.txt
+
+for file in ${output}/BWA/${mypop}*sorted.rmdup.bam
+
+do
+f=${file/sorted.rmdup.bam/}
+name=`basename ${f}`
+echo ${name} >> ${myrepo}/myresults/${mypop}.names.txt
+samtools flagstat ${file} | awk 'NR>=6&&NR<=12 {print $1}' | column -x
+done >> ${myrepo}/myresults/${mypop}.flagstats.txt
+
+# calculate depth of coverage from our bam files
+
+for file in ${output}/BWA/${mypop}*sorted.rmdup.bam
+
+do
+samtools depth ${file} | awk '{sum+=$3} END {print sum/NR}'
+done >> ${myrepo}/myresults/${mypop}.coverage.txt
+```
+
+#### ANSGD_mypop.sh:
+```
+#!/bin/bash
+
+myrepo="/users/z/p/zportlas/Ecological-Genomics"
+
+mkdir ${myrepo}/myresults/ANGSD
+
+output="${myrepo}/myresults/ANGSD"
+
+mypop="DG"
+
+ls /data/project_data/RS_ExomeSeq/mapping/BWA/${mypop}_*sorted.rm*.bam >${output}/${mypop}_bam.list
+
+REF="/data/project_data/RS_ExomeSeq/ReferenceGenomes/Pabies1.0-genome_reduced.fa"
+
+# Estimating GL's and allele frequencies for all sites with ANGSD
+
+ANGSD -b ${output}/${mypop}_bam.list \
+-ref ${REF} -anc ${REF} \
+-out ${output}/${mypop}_allsites \
+-nThreads 1 \
+-remove_bads 1 \
+-C 50 \
+-baq 1 \
+-minMapQ 20 \
+-minQ 20 \
+-setMinDepth 3 \
+-minInd 2 \
+-setMinDepthInd 1 \
+-setMaxDepthInd 17 \
+-skipTriallelic 1 \
+-GL 1 \
+-doCounts 1 \
+-doMajorMinor 1 \
+-doMaf 1 \
+-doSaf 1 \
+-doHWE 1 \
+# -SNP_pval 1e-6
+```
 
 ------
 
