@@ -25,6 +25,17 @@ chunk_output_type: console
   * [Entry 7: 2020-02-05, Wednesday](#id-section7)
   * [Entry 8: 2020-02-10, Monday](#id-section8)
   * [Entry 9: 2020-02-12, Wednesday](#id-section9)
+  * [Entry 10: 2020-02-17, Monday](#id-section10)
+  * [Entry 11: 2020-02-19, Wednesday](#id-section11)
+  * [Entry 12: 2020-02-24, Monday](#id-section12)
+  * [Entry 13: 2020-02-26, Wednesday](#id-section13)
+  * [Entry 14: 2020-03-02, Monday](#id-section14)
+  * [Entry 15: 2020-03-4, Wednesday](#id-section15)
+  * [Entry 16: 2020-03-16, Monday](#id-section16)
+  * [Entry 17: 2020-03-28, Wednesday](#id-section17)
+  * [Entry 18: 2020-03-23, Monday](#id-section18)
+  * [Entry 19: 2020-03-25, Wednesday](#id-section19)
+  * [Entry 20: 2020-03-30, Monday](#id-section20)
        
 
 ------
@@ -435,6 +446,8 @@ Learning Objectives
 
 ### Entry 8: 2020-02-10, Monday   
 
+#### Milesi et al., 2019 
+Assessing the potential for assisted gene flow using past introduction of Norway Spruce in Southern Sweden: Local adaptation and genetic basis of quantitative traits
 
 ------
 
@@ -444,12 +457,93 @@ Learning Objectives
 ### Entry 9: 2020-02-12, Wednesday   
 
 
+
 ------
 
 ------
 <div id='id-section10'/>   
 
 ### Entry 10: 2020-02-17, Monday   
+
+
+------
+
+------
+<div id='id-section11'/>   
+
+### Entry 11: 2020-02-19, Wednesday   
+
+
+------
+
+------
+<div id='id-section12'/>   
+
+### Entry 12: 2020-02-24, Monday   
+
+
+------
+
+------
+<div id='id-section13'/>   
+
+### Entry 13: 2020-02-26, Wednesday   
+
+
+------
+
+------
+<div id='id-section14'/>   
+
+### Entry 14: 2020-03-2, Monday   
+
+
+------
+
+------
+<div id='id-section15'/>   
+
+### Entry 15: 2020-03-4, Wednesday   
+
+
+------
+
+------
+<div id='id-section16'/>   
+
+### Entry 16: 2020-03-16, Monday   
+
+
+------
+
+------
+<div id='id-section17'/>   
+
+### Entry 17: 2020-03-18, Wednesday   
+
+
+------
+
+------
+<div id='id-section18'/>   
+
+### Entry 18: 2020-03-23, Monday   
+
+
+------
+
+------
+<div id='id-section19'/>   
+
+### Entry 19: 2020-03-25, Wednesday   
+
+
+------
+
+------
+<div id='id-section20'/>   
+
+### Entry 20: 2020-03-30, Monday   
 
 
 ------
