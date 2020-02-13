@@ -47,7 +47,7 @@ chunk_output_type: console
   * Pioneers: Sewell Wright, R.A. Fisher, J.B.S. Haldane
   * Mathematical Theory
   * Classic expectations
-    * Null odel of Hardy Weinberg equilibrium
+    * Null model of Hardy Weinberg equilibrium
   * Genetic drift, sampling effect in finite populations
   * Island model, multiple local populations that were divided, but connected to each other through migration
     * Fst: fixation coefficiant of a sunpopulation in relation to the total population
