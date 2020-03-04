@@ -1,0 +1,10 @@
+library(tximportData)
+library(tximport)
+library(DESeq2)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+library(ggpubr)
+library(readr)
+
