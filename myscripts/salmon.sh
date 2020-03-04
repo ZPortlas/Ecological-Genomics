@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /data/project_data/RS_RNASeq/fastqc/cleanreads/
+cd /data/project_data/RS_RNASeq/fastq/cleanreads/
 
 for file in NOR*C*.fq
 
