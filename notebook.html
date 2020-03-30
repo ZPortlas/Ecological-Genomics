@@ -1192,7 +1192,8 @@ done </code></pre>
 <li>Many of our reads were not mapping because the reference we had selected included only the coding region</li>
 <li>When working with 3’ RNAseq data, much of the data is likely to be in the untranslated region, so this region + coding region was combined to create a reference transcriptome with mapping rate of 52%</li>
 </ul>
-<p>Read in counts matrix</p>
+<div id="read-in-counts-matrix-to-use-deseq2-in-r" class="section level4">
+<h4>Read in counts matrix to use DESeq2 in R</h4>
 <pre><code>library(tximportData)
 library(tximport)
 library(DESeq2)
@@ -1220,10 +1221,11 @@ head(countsTableRound)
 conds &lt;- read.delim(&quot;RS_samples.txt&quot;, header=TRUE, stringsAsFactors = TRUE, row.names=1, colClasses=c(&#39;factor&#39;, &#39;factor&#39;, &#39;factor&#39;, &#39;factor&#39;))
 
 head(conds)
-dim(conds)
-
-
-## Let&#39;s see how many reads we have from each sample:
+dim(conds)</code></pre>
+</div>
+<div id="visualize-counts-per-sample" class="section level4">
+<h4>Visualize counts per sample</h4>
+<pre><code>## Let&#39;s see how many reads we have from each sample:
 
 colSums(countsTableRound)
 mean(colSums(countsTableRound))
@@ -1238,9 +1240,11 @@ median(rowSums(countsTableRound))
 
 # shows dispersion across genes, differences in magnitude of expression
 
-apply(countsTableRound,2,mean)
-
-## Create a DESeq object and define the experimental design here with the tilde
+apply(countsTableRound,2,mean)</code></pre>
+</div>
+<div id="section" class="section level4">
+<h4></h4>
+<pre><code>## Create a DESeq object and define the experimental design here with the tilde
 
 dds &lt;- DESeqDataSetFromMatrix(
   countData = countsTableRound, 
@@ -1366,6 +1370,7 @@ pheatmap(mat, annotation_col=df)</code></pre>
 <hr />
 <div id="id-section18"></div>
 
+</div>
 </div>
 <div id="entry-18-2020-03-23-monday" class="section level3">
 <h3>Entry 18: 2020-03-23, Monday</h3>

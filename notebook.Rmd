@@ -714,7 +714,7 @@ see `salmon.sh` in myscripts
 * Many of our reads were not mapping because the reference we had selected included only the coding region
 * When working with 3' RNAseq data, much of the data is likely to be in the untranslated region, so this region + coding region was combined to create a reference transcriptome with mapping rate of 52%
 
-Read in counts matrix
+#### Read in counts matrix to use DESeq2 in R
 
 ```
 library(tximportData)
@@ -745,8 +745,10 @@ conds <- read.delim("RS_samples.txt", header=TRUE, stringsAsFactors = TRUE, row.
 
 head(conds)
 dim(conds)
+```
+#### Visualize counts per sample
 
-
+```
 ## Let's see how many reads we have from each sample:
 
 colSums(countsTableRound)
@@ -763,9 +765,15 @@ median(rowSums(countsTableRound))
 # shows dispersion across genes, differences in magnitude of expression
 
 apply(countsTableRound,2,mean)
+```
 
-## Create a DESeq object and define the experimental design here with the tilde
 
+#### Create a DESeq object and define the experimental design here with the tilde
+
+* filter
+
+
+```
 dds <- DESeqDataSetFromMatrix(
   countData = countsTableRound, 
   colData = conds,
