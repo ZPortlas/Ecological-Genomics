@@ -224,7 +224,9 @@ myDiff <- getMethylDiff(myDiff,
                         qvalue = 0.05, 
                         difference = 10) 
 
-head(getData(myDiff)$meth.diff)
+summary(getData(myDiff)$meth.diff)
+#  Min.     1st Qu. Median  Mean   3rd Qu.  Max. 
+# -17.194 -14.451 -11.866  -7.447 -10.417  17.477 
 hist(getData(myDiff)$meth.diff) # methylation differences 
 
 # hist below 0 are hypomethylated and those above 0 are hypermethylated
@@ -321,7 +323,9 @@ myDiff <- getMethylDiff(myDiff,
                         qvalue = 0.05, 
                         difference = 10) 
 
-head(getData(myDiff)$meth.diff)
+summary(getData(myDiff)$meth.diff)
+# Min.     1st Qu.  Median  Mean   3rd Qu.  Max. 
+# -32.956 -16.331  11.160   1.032  15.490  32.097 
 hist(getData(myDiff)$meth.diff) # methylation differences 
 
 # hist below 0 are hypomethylated and those above 0 are hypermethylated
