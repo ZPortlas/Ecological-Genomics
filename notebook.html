@@ -1242,11 +1242,12 @@ median(rowSums(countsTableRound))
 
 apply(countsTableRound,2,mean)</code></pre>
 </div>
-<div id="section" class="section level4">
-<h4></h4>
-<pre><code>## Create a DESeq object and define the experimental design here with the tilde
-
-dds &lt;- DESeqDataSetFromMatrix(
+<div id="create-a-deseq-object-and-define-the-experimental-design-here-with-the-tilde" class="section level4">
+<h4>Create a DESeq object and define the experimental design here with the tilde</h4>
+<ul>
+<li>filter</li>
+</ul>
+<pre><code>dds &lt;- DESeqDataSetFromMatrix(
   countData = countsTableRound, 
   colData = conds,
   design = ~ climate + day + treatment)
@@ -1374,6 +1375,7 @@ pheatmap(mat, annotation_col=df)</code></pre>
 </div>
 <div id="entry-18-2020-03-23-monday" class="section level3">
 <h3>Entry 18: 2020-03-23, Monday</h3>
+<p>(class cancelled)</p>
 <hr />
 <hr />
 <div id="id-section19"></div>
@@ -1381,6 +1383,102 @@ pheatmap(mat, annotation_col=df)</code></pre>
 </div>
 <div id="entry-19-2020-03-25-wednesday" class="section level3">
 <h3>Entry 19: 2020-03-25, Wednesday</h3>
+<p>Reid’s Info Update</p>
+<ul>
+<li><p>Epigenetics:</p>
+<ul>
+<li>changes to gene expression not due to changes in DNA sequence</li>
+<li>Stable, long term alterations in the transcription potential of a cell that are not necessarily heritable</li>
+</ul></li>
+<li>Mechanism
+<ul>
+<li>phosphorylation</li>
+<li>non-coding RNAs (microRNAs)</li>
+<li>small interfering RNAs</li>
+<li>Histone modifications</li>
+<li>DNA methylation</li>
+</ul></li>
+<li>Functional Consequences of Methylation
+<ul>
+<li>Promoters/enhancers can be repressed, inhibits binding of transcription factors</li>
+<li>Intergenic (silencing TEs etc)</li>
+<li>Gene body</li>
+</ul></li>
+<li><p>Differences in methylation across species</p></li>
+<li>Bisulfite Seq
+<ul>
+<li>methylated form of cytosine is 5-methylcytosince</li>
+<li>bisulfite treatment of DNA converts cytosine to uracil, but 5-methylcytosine is unaffected</li>
+<li>can compare the proportions of Cs by looking at remaining Cs and the converted Cs to Us</li>
+<li>Reduced Representation Bisulfite Seq</li>
+<li>methylation insensitive restriction enzyme (usually MSPI)</li>
+</ul></li>
+<li>Copepod Selection Exp
+<ul>
+<li>Acartia tonsa, copepod</li>
+<li>4 groups, 4 reps each, 3000-5000 ind per rep
+<ul>
+<li>AA control, ambient temp and co2</li>
+<li>AH ambient temp high co2</li>
+<li>HA high temp and ambient co2</li>
+<li>HH high temp and high co2</li>
+</ul></li>
+<li>sampled at generations 0 and 25</li>
+<li>reduced representation bisulfite seq (RRBS)
+<ul>
+<li>Reduced genome &gt; Rad seq aproach &gt;&gt; restriction sites cuts (Mspl). Insenstive to meythlation.</li>
+<li>End repair</li>
+<li>adapter ligation</li>
+<li>Bisulfite conversion of all unmeythl Cs to Ts</li>
+<li>Small amount of DNA from E. coli as control to check downstream effects of how efficient bisulfite conversion was.</li>
+</ul></li>
+</ul></li>
+<li>Pipeline
+<ul>
+<li>Clean and visualize</li>
+<li>Align to reference genome (with bismark)</li>
+<li>extract methylation calls</li>
+<li>Process filter calls</li>
+<li>Summary figures (PCA, etc)</li>
+<li>Test for differential methylation (MethylKit in R)</li>
+</ul></li>
+<li>Cleaning
+<ul>
+<li>A lot more Ts due to Cs due to bisultife conversions on forward strand</li>
+<li>A lot of As in reverse strand due to the reverse compliment of the Ts</li>
+<li>Error increase at the end due to un methylated primers.</li>
+<li>Primer contamination removed after trimming</li>
+</ul></li>
+<li><p>Aligning with Bismark</p></li>
+<li>Running the Data
+<ul>
+<li>AH_F25_3</li>
+</ul></li>
+<li>Example code (bismark.sh):</li>
+</ul>
+<pre><code>#!/bin/bash
+
+bismark --bowtie2 --multicore 1 \
+    --genome /data/project_data/epigenetics/reference_genome \
+    --output_dir /data/project_data/epigenetics/aligned_output \
+    -1 /data/project_data/epigenetics/trimmed_fastq/SAMPLEID_1.fq.gz \
+    -2 /data/project_data/epigenetics/trimmed_fastq/SAMPLEID_2.fq.gz \
+    --rg_tag --rg_id SAMPLEID --rg_sample SAMPLEID --gzip --local --maxins 1000</code></pre>
+<p>Output files from this:</p>
+<ul>
+<li>SAMPLEID_bismark_bt2_pe.bam
+<ul>
+<li>the actual alignment</li>
+</ul></li>
+<li>SAMPLEID_bismark_bt2_PE_report.txt
+<ul>
+<li>text report of the alignment. Mapping success, etc.</li>
+</ul></li>
+<li>SAMPLEID_bismark_bt2_PE_report.html
+<ul>
+<li>html report of the alignment. can view in browser</li>
+</ul></li>
+</ul>
 <hr />
 <hr />
 <div id="id-section20"></div>
@@ -1388,6 +1486,229 @@ pheatmap(mat, annotation_col=df)</code></pre>
 </div>
 <div id="entry-20-2020-03-30-monday" class="section level3">
 <h3>Entry 20: 2020-03-30, Monday</h3>
+<p>Analysis Mapping Rate Mapping Rate</p>
+<p>Methylation extraction report</p>
+<p>Analyze with MethylKit in R</p>
+<pre><code>library(methylKit)
+library(tidyverse)
+library(ggplot2)
+library(pheatmap)
+
+# first, we want to read in the raw methylation calls with methylkit
+
+# set directory with absolute path (why is this necessary? I have no idea, but gz files wont work with relative paths)
+dir &lt;- &quot;C:/Users/Zoe/Desktop/Ecological-Genomics&quot;
+# read in the sample ids
+samples &lt;- read.table(&quot;sample_id.txt&quot;, header = F)
+# now point to coverage files
+files &lt;- file.path(dir, samples$V1)
+all(file.exists(files))
+# convert to list
+file.list &lt;- as.list(files)
+# get the names only for naming our samples
+nmlist &lt;- as.list(gsub(&quot;_1_bismark_bt2_pe.bismark.cov.gz&quot;,&quot;&quot;,samples$V1))
+# use methRead to read in the coverage files
+myobj &lt;- methRead(location= file.list, sample.id =   nmlist,
+                  assembly = &quot;atonsa&quot;, # this is just a string. no actual database
+                  dbtype = &quot;tabix&quot;, context = &quot;CpG&quot;,
+                  resolution = &quot;base&quot;, mincov = 20,
+                  treatment = 
+                    c(0,0,0,0,
+                      1,1,1,1,
+                      2,2,2,2,
+                      3,3,3,3,
+                      4,4,4,4),
+                  pipeline = &quot;bismarkCoverage&quot;,
+                  dbdir = dir)
+
+######
+# visualize coverage and filter
+######
+
+# We can look at the coverage for individual samples with getCoverageStats()
+getCoverageStats(myobj[[1]], plot = T)
+
+# and can plot all of our samples at once to compare.
+
+# filter samples by depth with filterByCoverage()
+filtered.myobj &lt;- filterByCoverage(myobj,
+                                   lo.count = 20,
+                                   lo.perc = NULL,
+                                   hi.count = NULL,
+                                   hi.perc = 97.5,
+                                   dbdir = dir)
+
+######
+# merge samples
+######
+
+#Note! This takes a while and we&#39;re skipping it
+
+# use unite() to merge all the samples. We will require sites to be present in each sample or else will drop it
+
+meth &lt;- unite()
+
+
+############ 
+meth &lt;- methylKit:::readMethylBaseDB(
+  dbpath = &quot;methylBase_united.txt.bgz&quot;,
+  dbtype = &quot;tabix&quot;,
+  sample.id =   unlist(nmlist),
+  assembly = &quot;atonsa&quot;, # this is just a string. no actual database
+  context = &quot;CpG&quot;,
+  resolution = &quot;base&quot;,
+  treatment = c(0,0,0,0,
+                1,1,1,1,
+                2,2,2,2,
+                3,3,3,3,
+                4,4,4,4),
+  destrand = FALSE)
+
+# percMethylation() calculates the percent methylation for each site and sample
+pm &lt;- percMethylation(meth)
+
+#plot methylation histograms
+ggplot(gather(as.data.frame(pm)), aes(value)) + 
+  geom_histogram(bins = 10, color=&quot;black&quot;, fill=&quot;grey&quot;) + 
+  facet_wrap(~key, ncol = 4)
+
+# calculate and plot mean methylation
+sp.means &lt;- colMeans(pm)
+
+p.df &lt;- data.frame(sample=names(sp.means),
+              group = substr(names(sp.means), 1,6),
+                   methylation = sp.means)
+ggplot(p.df, aes(x=group, y=methylation, color=group)) + 
+  stat_summary(color=&quot;black&quot;) + geom_jitter(width=0.1, size=3)
+
+# is the fact methylation is higher in AA_F00 real or is it because the mapping rate is so much higher?
+
+# sample clustering
+clusterSamples(meth, dist = &quot;correlation&quot;, method = &quot;ward.D&quot;, plot = T)
+# things aren&#39;t clustering by treatment
+
+# PCA
+PCASamples(meth, screeplot = F)
+
+# subset with reorganize()
+
+meth_sub &lt;- reorganize(meth,sample.ids =
+                         c(&quot;AA_F00_1&quot;,&quot;AA_F00_2&quot;,
+                           &quot;AA_F00_3&quot;, &quot;AA_F00_4&quot;,
+                           &quot;HH_F25_1&quot;,&quot;HH_F25_2&quot;,
+                           &quot;HH_F25_3&quot;,&quot;HH_F25_4&quot;),
+                       treatment = c(0,0,0,0,1,1,1,1),
+                       save.db=FALSE)
+
+# calculate differential methylation
+
+myDiff &lt;- calculateDiffMeth(meth_sub,
+                            overdispersion = &quot;MN&quot;,
+                            mc.cores = 1,
+                            suffix = &quot;AA_HH&quot;,
+                            adjust = &quot;qvalue&quot;,
+                            test = &quot;Chisq&quot;)
+
+# get all differentially methylated bases
+myDiff &lt;- getMethylDiff(myDiff,qvalue = 0.05,
+                         difference = 10)
+# we can visualize the changes in methylation frequencies quickly.
+hist(getData(myDiff)$meth.diff)
+# get hyper methylated bases
+hyper &lt;- getMethylDiff(myDiff, difference = 10, 
+                       qvalue = 0.05, type = &quot;hyper&quot;)
+
+# get hypo methylated bases
+hypo &lt;- getMethylDiff(myDiff, difference = 10, 
+                      qvalue = 0.05, type = &quot;hypo&quot;)
+
+
+#heatmaps first
+
+# get percent methylation matrix
+pm &lt;- percMethylation(meth_sub)
+# make a dataframe with snp id&#39;s, methylation, etc.
+sig.in &lt;- as.numeric(row.names(myDiff))
+pm.sig &lt;- pm[sig.in,]
+
+
+
+# add snp, chr, start, stop
+
+din &lt;- getData(myDiff)[,1:3]
+df.out &lt;- cbind(paste(getData(myDiff)$chr, 
+                      getData(myDiff)$start, 
+                      sep=&quot;:&quot;), 
+                din, pm.sig)
+
+colnames(df.out) &lt;- c(&quot;snp&quot;, colnames(din), 
+                      colnames(df.out[5:ncol(df.out)]))
+df.out &lt;- (cbind(df.out,getData(myDiff)[,5:7]))
+# make a dataframe with snp id&#39;s, methylation, etc.
+
+# add snp, chr, start, stop
+
+
+####
+# heatmap
+####
+
+pheatmap(pm.sig, show_rownames = FALSE)
+
+# we can also normalize 
+ctrmean &lt;- rowMeans(pm.sig[,1:4])
+h.norm &lt;- (pm.sig-ctrmean)
+pheatmap(h.norm, show_rownames = FALSE)
+
+
+#####
+#let&#39;s look at methylation of specific snps
+####
+
+# convert data frame to long form
+df.plot &lt;- df.out[,c(1,5:12)] %&gt;% pivot_longer(-snp, values_to = &quot;methylation&quot;)
+
+df.plot$group &lt;- substr(df.plot$name,1,2)
+head(df.plot)
+
+# Looking at snp LS049205.1:248
+# if you choose a different snp, you can create different plots.
+
+df.plot %&gt;% filter(snp==&quot;LS049205.1:248&quot;) %&gt;% 
+  ggplot(., aes(x=group, y=methylation, 
+                color=group, fill=group)) +
+  stat_summary(fun.data = &quot;mean_se&quot;, size = 2) +
+  geom_jitter(width = 0.1, size=3, pch=21, color=&quot;black&quot;)
+
+## write bed file for intersection with genome annotation
+setwd(dir)
+write.table(file = &quot;diffmeth.bed&quot;,
+            data.frame(chr = df.out$chr, 
+                       start = df.out$start, 
+                       end = df.out$end),
+            row.names = FALSE, 
+            col.names = FALSE, 
+            quote = FALSE, 
+            sep = &quot;\t&quot;)</code></pre>
+<ul>
+<li>Link to genes</li>
+</ul>
+<pre><code>/data/popgen/bedtools2/bin/bedtools closest -a DIFF.bedFILELOCATION \
+      -b /data/project_data/epigenetics/GCA_900241095.1_Aton1.0_genomic.fa_annotation_table.bed \
+      -D b | \
+      awk &#39;!($10==&quot;-&quot;)&#39; &gt; hits.bed</code></pre>
+<ul>
+<li>first path is location where bedtools is on server</li>
+<li><code>closest</code> function that calls for closest features between samples</li>
+<li><code>&gt; hits.bed</code> assign name to output</li>
+<li><code>-D b</code>: Report distance with respect to the orientation of the interval in B. That is, when B is on the - strand, “upstream” means A has higher start/stop coordinates. When B is on the + strand, “upstream” means A has lower start/stop coordinates.</li>
+</ul>
+<pre><code># count number of hits
+
+cat hits.bed | wc -l
+
+# count number of unique named genes
+cat hits.bed | cut -f 8 | sort | uniq -c</code></pre>
 <hr />
 </div>
 </div>
